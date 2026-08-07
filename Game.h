@@ -11,6 +11,7 @@ class Game
 	// TODO #1 - Instead of storing 1 brick, store a vector of bricks (by value)
 	std::vector<Box> brick;
 
+
 public:
 	Game();
 	bool Update();
@@ -18,4 +19,5 @@ public:
 	void Reset();
 	void ResetBall();
 	void CheckCollision();
+	bool brickGone = false;
 };

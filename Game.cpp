@@ -8,6 +8,7 @@ Game::Game()
 
 void Game::Reset()
 {
+	brickGone = false;
 	Console::SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	Console::CursorVisible(false);
 	paddle.width = 12;
@@ -20,7 +21,7 @@ void Game::Reset()
 	ResetBall();
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
-	const int brickCount = 5;
+	const int brickCount = 1;
 
 	brick.clear();
 	brick.resize(brickCount);
@@ -45,6 +46,8 @@ void Game::ResetBall()
 	ball.y_velocity = -1;
 	ball.moving = false;
 }
+
+
 
 bool Game::Update()
 {
@@ -83,12 +86,16 @@ void Game::Render() const
 		brick[i].Draw();
 	}
 
-	if (brick.size() == 0)
+	if(brickGone)
 	{
-		Console::Clear();
-		std::cout << "CONGRATULATIONNNNNNNNSSSS WINNNNNERRRRR WINNNERRRR\n\t\tCHICKEN DINNER\n\n\tPress 'R' to restart\n";
+		std::string msgWIN = "\nCONGRATULATIONNNNNNNNSSSS WINNNNNERRRRR WINNNERRRR\n\t\tCHICKEN DINNER\n\n\tPress 'R' to restart\n";
+		
+		int x = (WINDOW_WIDTH / 2) - (msgWIN.length() / 2);
+		int y = WINDOW_HEIGHT / 2;
+
+		std::cout << msgWIN;
 	}
-	
+
 	Console::Lock(false);
 }
 
@@ -112,6 +119,12 @@ void Game::CheckCollision()
 	
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
+	if (brick.size() == 0)
+	{
+		brickGone = true;
+		ball.moving = false;
+	}
+
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
