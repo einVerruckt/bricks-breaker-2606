@@ -11,6 +11,7 @@ void Game::Reset()
 	brickGone = false;
 	playerLose = false;
 	Console::SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	Console::SetBufferSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	Console::CursorVisible(false);
 	paddle.width = 12;
 	paddle.height = 2;
@@ -22,7 +23,7 @@ void Game::Reset()
 	ResetBall();
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
-	const int brickCount = 1;
+	const int brickCount = 5; // Sets number of bricks
 
 	brick.clear();
 	brick.resize(brickCount);
@@ -36,7 +37,6 @@ void Game::Reset()
 		brick[i].doubleThick = true;
 		brick[i].color = ConsoleColor::DarkBlue; // DarkCyan
 	}
-	
 }
 
 void Game::ResetBall()
@@ -143,7 +143,7 @@ void Game::CheckCollision()
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
-	if (ball.y_position + ball.y_velocity >= WINDOW_HEIGHT)
+	if (ball.y_position + ball.y_velocity >= WINDOW_HEIGHT - 10)
 	{
 		playerLose = true;
 		ball.moving = false;
