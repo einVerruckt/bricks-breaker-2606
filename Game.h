@@ -20,4 +20,5 @@ public:
 	void ResetBall();
 	void CheckCollision();
 	bool brickGone = false;
+	bool playerLose = false;
 };

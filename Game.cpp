@@ -9,6 +9,7 @@ Game::Game()
 void Game::Reset()
 {
 	brickGone = false;
+	playerLose = false;
 	Console::SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	Console::CursorVisible(false);
 	paddle.width = 12;
@@ -88,12 +89,22 @@ void Game::Render() const
 
 	if(brickGone)
 	{
-		std::string msgWIN = "\nCONGRATULATIONNNNNNNNSSSS WINNNNNERRRRR WINNNERRRR\n\t\tCHICKEN DINNER\n\n\tPress 'R' to restart\n";
+		std::string msgWIN = "\nCONGRATULATIONNNNNNNNSSSS\n WINNNNNERRRRR WINNNERRRR CHICKEN DINNER\n\nPress 'R' to restart\n";
 		
 		int x = (WINDOW_WIDTH / 2) - (msgWIN.length() / 2);
 		int y = WINDOW_HEIGHT / 2;
 
 		std::cout << msgWIN;
+	}
+
+	if (playerLose)
+	{
+		std::string msgLOSE = "\nLOSERRRRRRRRRR\nPress 'R' to restart\n";
+
+		int x = (WINDOW_WIDTH / 2) - (msgLOSE.length() / 2);
+		int y = WINDOW_HEIGHT / 2;
+
+		std::cout << msgLOSE;
 	}
 
 	Console::Lock(false);
@@ -119,7 +130,7 @@ void Game::CheckCollision()
 	
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
-	if (brick.size() == 0)
+	if (brick.size() == 0) // WIN
 	{
 		brickGone = true;
 		ball.moving = false;
@@ -132,4 +143,9 @@ void Game::CheckCollision()
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
+	if (ball.y_position + ball.y_velocity >= WINDOW_HEIGHT)
+	{
+		playerLose = true;
+		ball.moving = false;
+	}
 }
